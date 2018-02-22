@@ -10,8 +10,10 @@ import com.vaadin.data.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.sboychenko.dao.Person;
+import ru.sboychenko.dao.ReadRSS;
 import ru.sboychenko.dao.Todo;
 import java.lang.String;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,9 +26,14 @@ public class TodoUI extends UI {
 
     private VerticalLayout root;
 
-    List<Person> people = Arrays.asList(
+    ReadRSS readRSS = new ReadRSS();
+
+ /*   List<Person> people = Arrays.asList(
             new Person("Nic"),
-            new Person("Nic1"));
+            new Person("Nic1"));*/
+
+    List<Person> people  = new ArrayList<>();
+
 
 
     Grid<Person> grid = new Grid<>();
@@ -38,10 +45,10 @@ public class TodoUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         setupLayout();
         addHeader();
-        addForm();
-        addTodoList();
+      //  addForm();
+     //   addTodoList();
         addTable();
-        addDeleteButton();
+      //  addDeleteButton();
         updateButton();
     }
 
@@ -52,7 +59,7 @@ public class TodoUI extends UI {
     }
 
     private void addHeader() {
-        Label header = new Label("TODO");
+        Label header = new Label("XML NEWS");
         header.addStyleName(ValoTheme.LABEL_H1);
         root.addComponent(header);
     }
@@ -87,14 +94,28 @@ public class TodoUI extends UI {
     }
     private void addTable() {
 
+        people.add(new Person());
+
+
         VerticalLayout tableLayout = new VerticalLayout();
-        tableLayout.setWidth("80%");
+        //tableLayout.setWidthUndefined();
+        tableLayout.setWidth("98%");
+
+
+    //    tableLayout.setMargin(true);
 
 
         grid.setItems(people);
+        grid.setWidth("100%");
+        grid.setHeight("500px");
+
+
         grid.addColumn(Person::getName).setCaption("Name");
 
         tableLayout.addComponent(grid);
+
+//        tableLayout.setHeight("89%");
+
         root.addComponent(tableLayout);
     }
 
@@ -108,15 +129,53 @@ public class TodoUI extends UI {
         }));
     }
     private void updateButton() {
-        root.addComponent(new Button("Update", click -> {
 
-            List<Person> people = Arrays.asList(
-                    new Person("111"),
-                    new Person("222"));
 
+        Button updbtn = new Button("REFRESH");
+        updbtn.addStyleName(ValoTheme.BUTTON_PRIMARY);
+        updbtn.setWidth("40%");
+        updbtn.setIcon(VaadinIcons.REFRESH);
+
+     //   formLayout.addComponentsAndExpand(task);
+      //  formLayout.addComponents(add);
+        root.addComponent(updbtn);
+
+        updbtn.addClickListener(click -> {
+
+            /*List<Person> people = Arrays.asList(
+                    new Person());*/
+
+            //   people.addAll(readRSS.jaxbparse());
+            for (Person tttt : readRSS.jaxbparse()) {
+
+                people.add(tttt);
+
+            }
+
+            System.out.println("---------------------закончено 2222 -----------------------");
+            //  readRSS.jaxbparse();
+            //todoLayout.init();
+            grid.setItems(people);
+
+        });
+
+      /*  root.addComponent(new Button("Update", click -> {
+
+
+
+         //   people.addAll(readRSS.jaxbparse());
+            for (Person tttt : readRSS.jaxbparse()) {
+
+                people.add(tttt);
+
+            }
+
+            System.out.println("---------------------закончено 2222 -----------------------");
+          //  readRSS.jaxbparse();
             //todoLayout.init();
             grid.setItems(people);
 
         }));
+*/
     }
 }
