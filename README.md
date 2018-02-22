@@ -1,6 +1,6 @@
-# Vaadin & Spring-boot TODO app
+# Vaadin & Spring-boot XML RSS-feed news parser
 
-Simple todo list with Vaadin 8, spring-boot and H2 with JPA
+Simple XML RSS-feed news parser with JAXB + VAADIN + SpringBoot
 
 Run application:
 ```
